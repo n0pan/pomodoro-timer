@@ -45,13 +45,21 @@ class App extends Component {
 
   _getButton() {
     if (this.state.playing) {
-      return <i className="pause fa fa-pause-circle" aria-hidden="true" onClick={() => {this._setPause()}}></i>
+      return <i className="pause fa fa-pause-circle" aria-hidden="true" onClick={() => { this._setPause() }}></i>
     }
     else if (this.state.paused) {
-      return <i className="play fa fa-play-circle" aria-hidden="true" onClick={() => { this._start()}}></i>
+      return <i className="play fa fa-play-circle" aria-hidden="true" onClick={() => { this._start() }}></i>
     }
     else if (this.state.stop) {
-      return <i className="stop fa fa-stop-circle" aria-hidden="true" onClick={() => { this._start()}}></i>
+      return <i className="stop fa fa-stop-circle" aria-hidden="true" onClick={() => { this._start() }}></i>
+    }
+  }
+
+  _getBreak() {
+    if (this.state.break) {
+      return <p className="message">Time for a break!</p>;
+    } else {
+      return <p className="message">Get to work!</p>;
     }
   }
 
@@ -87,16 +95,19 @@ class App extends Component {
   }
 
   _start() {
+    this._setPlay();
     if (this.timer === 0) {
       this.timer = setInterval(this._beginTimer, 1000);
+      console.log('testing _start()');
     }
-    this._setPlay();
   }
 
   _beginTimer() {
+    console.log('this works');
     let seconds;
 
     if (this.state.playing) {
+      console.log('starts running');
       seconds = ( this.state.seconds - 1 );
       this.setState({
         clock: this._getTime(seconds),
@@ -139,6 +150,7 @@ class App extends Component {
           {this.state.clock.minutes}:{this.state.clock.seconds}
         </main>
         <footer>
+          {this._getBreak()}
           {this._getButton()}
         </footer>
       </div>
